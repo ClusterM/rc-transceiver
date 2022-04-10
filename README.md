@@ -19,14 +19,14 @@ RC-transceiver uses it's own Linux kernel module. This module uses the hardware 
 ### How to load the Linux kernel module
 
 You can load the module via command line:
-`insmod rc-transceiver rx_pin=16 pwm_channel=0`
+`insmod rc-transceiver rx_pin=17 pwm_channel=0`
 You should use this parameters for my schematic but if you want to change something:
 * rx_pin - number of GPIO pin for receiving
 * pwm_channel - PWM channel used for transmitting (0 for pin 18, 1 for pin 19, see datasheet)
 
 To load the module autocatically at boot you can create the `/etc/modules.d/99-rc-transceiver` file with this line:
 ```
-rc-transceiver rx_pin=16 pwm_channel=0
+rc-transceiver rx_pin=17 pwm_channel=0
 ```
 **You need to set GPIO MUX to PWM manually**, e.g. put this line to the beginning of `/etc/rc.local`:
 ```
