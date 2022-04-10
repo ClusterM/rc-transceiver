@@ -14,32 +14,32 @@ IR remote control receiver and transmitter based on Onion Omega2
 
 ## Software
 
-RC-transceiver uses it's own Linux kernel module. This module uses hardware PWM of Onion Omega2 for IR transmitting and GPIO for receviving.
+RC-transceiver uses it's own Linux kernel module. This module uses the hardware PWM of Onion Omega2 for IR transmitting and GPIO for receiving.
 
-### How to load Linux kernel module
+### How to load the Linux kernel module
 
-You can load module via command line:
+You can load the module via command line:
 `insmod rc-transceiver rx_pin=16 pwm_channel=0`
 You should use this parameters for my schematic but if you want to change something:
 * rx_pin - number of GPIO pin for receiving
 * pwm_channel - PWM channel used for transmitting (0 for pin 18, 1 for pin 19, see datasheet)
 
-To load module autocatically at boot you can create the `/etc/modules.d/99-rc-transceiver` file  with this line:
+To load the module autocatically at boot you can create the `/etc/modules.d/99-rc-transceiver` file with this line:
 ```
 rc-transceiver rx_pin=16 pwm_channel=0
 ```
-**You need to set GPIO MUX to PWM manually**, e.g. put this line to the beginning of `/etc/rc.conf`:
+**You need to set GPIO MUX to PWM manually**, e.g. put this line to the beginning of `/etc/rc.local`:
 ```
 omega2-ctrl gpiomux set pwm0 pwm
 ```
 
-### How to use Linux kernel module
-If module is loaded correctly the `/dev/rc` pseudo file should appear. You can read it as text file and press some button on remote control:
+### How to use the Linux kernel module
+If module is loaded correctly the `/dev/rc` pseudo file should appear. You can read it as a text file and press some button on your remote control:
 ```
 root@rc-transceiver:~# cat /dev/rc
 680a7803bc017803bc01bc01bc01bc01bc0178037803bc01bc01bc01bc01bc01bc01bc01bc01bc01bc01bc01bc01bc0178037803bc01bc017803bc01bc01bc01bc01bc01bc0178037803
 ```
-This long line is raw button code. It's encoded as a hexadecimal string of 16-bit (little-endian) values with signal lengths and gap lengths in microseconds. E.g. code `112233445566778899aa` means:
+This long line is a raw button code. It's encoded as a hexadecimal string of 16-bit (little-endian) values with signal lengths and gap lengths in microseconds. E.g. code `112233445566778899aa` means:
 * `1122` = 8721 microseconds of signal
 * `3344` = 17459 microseconds of gap
 * `5566` = 26197 microseconds of signal
@@ -54,9 +54,9 @@ echo 680a7803bc017803bc01bc01bc01bc01bc0178037803bc01bc01bc01bc01bc01bc01bc01bc0
 ```
 
 ## Example scripts
-This project comes with several Python scripts that demonstrate encoding and decoding of seome remote control protocols:
+This project comes with several Python scripts that demonstrate encoding and decoding of some remote control protocols:
 * `demo_scripts/receiver-test.py` - receiver
-* `demo_scripts/transmitter-test.py` - receiver
+* `demo_scripts/transmitter-test.py` - transmitter
 * `demo_scripts/necrc.py` - module to decode and encode NEC protocol (most popular one)
 * `demo_scripts/rc6.py` - module to decode and encode RC-6 protocol (used by Philips)
 
